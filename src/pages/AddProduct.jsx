@@ -20,14 +20,23 @@ function AddProduct() {
             stock: stockRef.current.value,
             active: activeRef.current.checked,
           }
-          console.log(newProduct);
+
+          const authData = JSON.parse(sessionStorage.getItem("authData"));
+          const expiration = new Date(authData.expiration);
+          let token;
+          if (expiration > new Date()) {
+              token = authData.token;
+          } else {
+              sessionStorage.deleteItem();
+          }
+
           fetch("http://localhost:8080/products",
             {
                 method: "POST",
                 body: JSON.stringify(newProduct),
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJ3ZWJzaG9wIiwic3ViIjoibUBtLmNvbSIsImV4cCI6MTY1MjI2ODUxOH0.NcItS2zK0ZpPVevVTAsimRPTFR3RLyiM8-Sjk8E2IKp_fYGW6FxBgvgqFtKS8VC9E850clXIN2zEdVIT83n-Tg"
+                    "Authorization": `Bearer ${token}`
                 }
             }
 

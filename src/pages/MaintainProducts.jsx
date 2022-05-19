@@ -6,11 +6,11 @@ function MaintainProducts() {
   const baseUrl = "http://localhost:8080";
   const [products, setProducts] = useState([]); 
 
-  let products2 = [];
+  //let products2 = [];
 
-  function setProducts2(newValue) {
-    products2 = newValue;
-  }
+  //function setProducts2(newValue) {
+  //  products2 = newValue;
+  //}
 
   const authData = JSON.parse(sessionStorage.getItem("authData"));
   const expiration = new Date(authData.expiration);
@@ -36,7 +36,7 @@ function MaintainProducts() {
       body: JSON.stringify(productClicked),
       headers: {
         "Content-Type": "application/json",
-        "Authorization": "Bearer eyJhbGciOiJIUzUxMiJ9.eyJpc3MiOiJ3ZWJzaG9wIiwic3ViIjoibUBtLmNvbSIsImV4cCI6MTY1MjI2ODUxOH0.NcItS2zK0ZpPVevVTAsimRPTFR3RLyiM8-Sjk8E2IKp_fYGW6FxBgvgqFtKS8VC9E850clXIN2zEdVIT83n-Tg"
+        "Authorization": `Bearer ${token}`
       }
     }).then(res => res.json())
     .then(body => setProducts(body));

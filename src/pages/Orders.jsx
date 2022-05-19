@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 function Orders() {
-    const baseUrl = "http://localhost:8000";
+    const baseUrl = "http://localhost:8080";
     const [orders, setOrders] = useState([]);
 
     const authData = JSON.parse(sessionStorage.getItem("authData"));
@@ -20,7 +20,7 @@ function Orders() {
             }
         }).then(res => res.json()) 
         .then(body => setOrders(body));
-      },[]); 
+      },[token]); 
 
     return (<div>
     { orders.map(element => 

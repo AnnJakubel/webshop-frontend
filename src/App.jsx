@@ -61,11 +61,11 @@ function App() {
           <Route path='registreeru' exact element={ <Signup /> } />
           { token && 
           <Route> 
+            <Route path='tellimused' exact element={ <Orders /> } />
             <Route path='admin' exact element={ <Admin /> } />
             <Route path='admin/lisa-toode' exact element={ <AddProduct /> } />
             <Route path='admin/halda-tooted' exact element={ <MaintainProducts /> } />
             <Route path='admin/muuda-toode' exact element={ <div>Toote muutmise leht</div> } />
-            <Route path='tellimused' exact element={ <Orders /> } />
           </Route>
           }
           { !token && <Route path='admin/*' exact element={ <Login /> } />}

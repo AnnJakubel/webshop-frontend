@@ -10,6 +10,7 @@ import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Orders from "./pages/Orders"
+import EditProduct from './pages/EditProduct';
 
 
 
@@ -64,8 +65,8 @@ function App() {
             <Route path='tellimused' exact element={ <Orders /> } />
             <Route path='admin' exact element={ <Admin /> } />
             <Route path='admin/lisa-toode' exact element={ <AddProduct /> } />
-            <Route path='admin/halda-tooted' exact element={ <MaintainProducts /> } />
-            <Route path='admin/muuda-toode' exact element={ <div>Toote muutmise leht</div> } />
+            <Route path='admin/halda-tooteid' exact element={ <MaintainProducts /> } />
+            <Route path='admin/muuda-toode/:id' exact element={ <EditProduct /> } />
           </Route>
           }
           { !token && <Route path='admin/*' exact element={ <Login /> } />}

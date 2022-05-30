@@ -22,7 +22,7 @@ function Login() {
       password: passwordRef.current.value
     }
 
-    fetch("http://localhost:8080/login", {
+    fetch("https://annjakubel-java-webshop.herokuapp.com//login", {
         method: "POST",
         body: JSON.stringify(userData),
         headers: {

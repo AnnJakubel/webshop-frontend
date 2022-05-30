@@ -30,7 +30,7 @@ function AddProduct() {
           sessionStorage.deleteItem();
         }
 
-        fetch("http://localhost:8080/products",
+        fetch("https://annjakubel-java-webshop.herokuapp.com/products",
         {
             method: "POST",
              body: JSON.stringify(newProduct),

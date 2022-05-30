@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"; // use algusega funktsioonid on Rea
 import { Button } from "react-bootstrap";
 
 function MainPage() {
-    const baseUrl = "http://localhost:8080";
+    const baseUrl = "https://annjakubel-java-webshop.herokuapp.com";
     const [products, setProducts] = useState([]);
 
     useEffect(()=>{ // useEffect ei lase teist korda siia funktsiooni sisse minna

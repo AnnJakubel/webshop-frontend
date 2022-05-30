@@ -38,7 +38,7 @@ function Signup() {
       password: passwordRepeatRef.current.value
     }
 
-    fetch("http://localhost:8080/signup", {
+    fetch("https://annjakubel-java-webshop.herokuapp.com/signup", {
       method: "POST",
       body: JSON.stringify(newUser),
       headers: {

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 function Orders() {
-    const baseUrl = "http://localhost:8080";
+    const baseUrl = "https://annjakubel-java-webshop.herokuapp.com/";
     const [orders, setOrders] = useState([]);
 
     const authData = JSON.parse(sessionStorage.getItem("authData"));

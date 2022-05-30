@@ -11,7 +11,7 @@ function EditProduct() {
     const stockRef = useRef();
     const activeRef = useRef();
     const { id } = useParams();
-    const baseUrl = "http://localhost:8080";
+    const baseUrl = "https://annjakubel-java-webshop.herokuapp.com";
     const [product, setProduct] = useState();
 
     useEffect(()=>{ 
@@ -40,7 +40,7 @@ function EditProduct() {
       sessionStorage.removeItem("authData");
     }
 
-    fetch("http://localhost:8080/products",
+    fetch("https://annjakubel-java-webshop.herokuapp.com/products",
         {
             method: "PUT",
             body: JSON.stringify(updatedProduct),

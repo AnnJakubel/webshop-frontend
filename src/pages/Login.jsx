@@ -22,19 +22,26 @@ function Login() {
       password: passwordRef.current.value
     }
 
-    fetch("https://annjakubel-java-webshop.herokuapp.com//login", {
-        method: "POST",
-        body: JSON.stringify(userData),
-        headers: {
-          "Content-Type": "application/json"
+    fetch("http://localhost:8080/login", {
+      method: "POST",
+      body: JSON.stringify(userData),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    }).then(res => {
+        if (res.status === 200) {
+          return res.json();
+        } else {
+          console.log(res);
+          throw Error();
         }
-      }).then(res => res.json())
-        .then(body => {
-          sessionStorage.setItem("authData", JSON.stringify(body));
-          navigate("/");
-          window.location.reload();
-        });
-    }
+      })
+      .then(body => {
+        sessionStorage.setItem("authData", JSON.stringify(body));
+        navigate("/");
+        window.location.reload();
+      });
+  }
 
   return (
   <div>

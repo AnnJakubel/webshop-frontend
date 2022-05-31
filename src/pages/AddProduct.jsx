@@ -1,6 +1,6 @@
 import { Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 function AddProduct() {
     const nameRef = useRef();
@@ -9,7 +9,28 @@ function AddProduct() {
     const descriptionRef = useRef();
     const stockRef = useRef();
     const activeRef = useRef();
+    const categoryRef = useRef();
     const navigation = useNavigate();
+    const [errorMessage, setErrorMessage] = useState("");
+    const [categories, setCategories] = useState([]);
+
+    const authData = JSON.parse(sessionStorage.getItem("authData"));
+    const expiration = new Date(authData.expiration);
+    let token;
+    if (expiration > new Date()) {
+        token = authData.token;
+    } else {
+        sessionStorage.removeItem("authData");
+    }
+
+    useEffect(() => {
+        fetch("http://localhost:8080/category",{
+            headers: {
+            "Authorization": `Bearer ${token}`
+            }
+        }).then(res => res.json())
+        .then(body => setCategories(body));
+        }, [token]);
 
     function addNewProduct() {
         const newProduct = {
@@ -19,18 +40,11 @@ function AddProduct() {
             description: descriptionRef.current.value,
             stock: stockRef.current.value,
             active: activeRef.current.checked,
+            category: {id: categoryRef.current.value},
         }
 
-        const authData = JSON.parse(sessionStorage.getItem("authData"));
-        const expiration = new Date(authData.expiration);
-        let token;
-        if (expiration > new Date()) {
-          token = authData.token;
-        } else {
-          sessionStorage.deleteItem();
-        }
 
-        fetch("https://annjakubel-java-webshop.herokuapp.com/products",
+        fetch("http://localhost:8080/products",
         {
             method: "POST",
              body: JSON.stringify(newProduct),
@@ -38,18 +52,48 @@ function AddProduct() {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             }
-        }).then(() => navigation(""));
+        } ).then(res => {
+            if (res.status === 201) {
+              navigation("/admin/halda-tooted")
+            } else {
+              console.log(res);
+              setErrorMessage("Nõutud väljad täitmata");
+              throw Error();
+            }
+          });
     }
+
+    const [selectedCategories, setSubcategories] = useState([]);
+
+    function parentCategoryChanged(event) {
+        const selectedCategory = event.target.value;
+        const subcategories = JSON.parse(selectedCategory).subcategories;
+        setSubcategories(subcategories);
+    }
+
 
     return (
         <div>
             <Link to="/admin">
-                <Button>Tagasi</Button>
-            </Link>
-            <label>Nimi</label> <br />
+            <Button>Tagasi</Button>
+            </Link>   <br />
+            <div>{errorMessage}</div>
+            <label>Nimi*</label> <br />
             <input ref={nameRef} type="text"/> <br />
-            <label>Hind</label> <br />
+            <label>Hind*</label> <br />
             <input ref={priceRef} type="number"/> <br />
+            <label>Kategooria*</label> <br />
+            {/* <input ref={categoryRef} type="number" /> <br /> */}
+            <select onChange={parentCategoryChanged}>
+                <option value="" disabled selected>Vali kategooria</option>
+                { categories.map(element => <option value={JSON.stringify(element)}>{element.name}</option>) }
+             </select> <br />
+             { selectedCategories.length > 0 && 
+                <select ref={categoryRef}>
+                <option value="" disabled selected>Vali tootele kategooria</option>
+                { selectedCategories.map(element => <option value={element.id}>{element.name}</option>) }
+            </select>} <br />
+            <input ref={categoryRef} type="number"/> <br />
             <label>Pildi aadresss</label> <br />
             <input ref={imgSrcRef} type="text"/> <br />
             <label>Kirjeldus</label> <br />

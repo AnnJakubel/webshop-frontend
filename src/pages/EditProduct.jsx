@@ -11,47 +11,46 @@ function EditProduct() {
     const stockRef = useRef();
     const activeRef = useRef();
     const { id } = useParams();
-    const baseUrl = "https://annjakubel-java-webshop.herokuapp.com";
+    const baseUrl = "http://localhost:8080";
     const [product, setProduct] = useState();
 
-    useEffect(()=>{ 
-        fetch(baseUrl + "/products/" + id ).then(res => res.json()) 
-        .then(body => setProduct(body)); 
-    },[id]); 
-
-    function editProduct() {
+    useEffect(()=>{ // useEffect ei lase teist korda siia funktsiooni sisse minna
+        fetch(baseUrl + "/products/" + id ).then(res => res.json()) // response (body+status+headers+time)
+        .then(body => setProduct(body)); // teine .then tähistab body võtmist
+      },[id]); // kandiliste sulgude sees on list muutujatest kelle muutumisel ta ikka teeb uuesti
+      
+      function editProduct() {
         const updatedProduct = {
-            id: id,
-            name: nameRef.current.value,
-            price: priceRef.current.value,
-            imgSrc: imgSrcRef.current.value,
-            description: descriptionRef.current.value,
-            stock: stockRef.current.value,
-            active: activeRef.current.checked,
+          id: id, // seda ärme muuta lase, aga ikka saadame (väärtus tuleb URL-st)
+          name: nameRef.current.value,
+          price: priceRef.current.value,
+          imgSrc: imgSrcRef.current.value,
+          description: descriptionRef.current.value,
+          stock: stockRef.current.value,
+          active: activeRef.current.checked,
         }
-    }
-
-    const authData = JSON.parse(sessionStorage.getItem("authData"));
-    const expiration = new Date(authData.expiration);
-    let token;
-    if (expiration > new Date()) {
-      token = authData.token;
-    } else {
-      sessionStorage.removeItem("authData");
-    }
-
-    fetch("https://annjakubel-java-webshop.herokuapp.com/products",
-        {
+    
+        const authData = JSON.parse(sessionStorage.getItem("authData"));
+        const expiration = new Date(authData.expiration);
+        let token;
+        if (expiration > new Date()) {
+          token = authData.token;
+        } else {
+          sessionStorage.removeItem("authData");
+        }
+    
+        fetch("http://localhost:8080/products",
+          {
             method: "PUT",
             body: JSON.stringify(updatedProduct),
             headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${token}`
+              // "Authorization": "Bearer " + token
             }
-        }
-    )
-
-
+          }
+        )
+      }
 
     return (
         <div>

@@ -35,7 +35,7 @@ function Cart() {
           sessionStorage.removeItem("authData");
         }
 
-        fetch("https://annjakubel-java-webshop.herokuapp.com/payment", {
+        fetch("http://localhost:8080/payment", {
             method: "POST",
             body: JSON.stringify(cartProducts),
             headers: {

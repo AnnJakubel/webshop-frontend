@@ -3,7 +3,7 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 function MaintainProducts() {
-  const baseUrl = "https://annjakubel-java-webshop.herokuapp.com";
+  const baseUrl = "http://localhost:8080";
   const [products, setProducts] = useState([]); 
 
   //let products2 = [];

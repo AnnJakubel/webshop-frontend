@@ -11,6 +11,14 @@ function Admin() {
              <Link to="/admin/halda-tooteid">
                 <Button>Halda tooteid</Button>
             </Link>
+
+            <Link to="/admin/lisa-admin">
+                <Button>Lisa administraator</Button>
+            </Link>
+
+             <Link to="/admin/halda-admine">
+                <Button>Halda administraatoreid</Button>
+            </Link>
         </div>
     )
 }

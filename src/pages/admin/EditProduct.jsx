@@ -28,6 +28,7 @@ function EditProduct() {
           description: descriptionRef.current.value,
           stock: stockRef.current.value,
           active: activeRef.current.checked,
+          category: product.category
         }
     
         const authData = JSON.parse(sessionStorage.getItem("authData"));

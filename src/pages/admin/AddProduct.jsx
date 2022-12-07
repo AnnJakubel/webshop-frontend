@@ -13,6 +13,7 @@ function AddProduct() {
     const navigation = useNavigate();
     const [errorMessage, setErrorMessage] = useState("");
     const [categories, setCategories] = useState([]);
+    const [isAllOk, setAllOk] = useState(false);
 
     const authData = JSON.parse(sessionStorage.getItem("authData"));
     const expiration = new Date(authData.expiration);
@@ -71,6 +72,16 @@ function AddProduct() {
         setSubcategories(subcategories);
     }
 
+    function checkIfAllOk() {
+        if (nameRef.current.value !== "" &&
+        priceRef.current.value !== "" &&
+        categoryRef.current.value !== "") {
+            setAllOk(true);
+        } else {
+            setAllOk(false);
+        }
+    }
+
 
     return (
         <div>
@@ -79,20 +90,23 @@ function AddProduct() {
             </Link>   <br />
             <div>{errorMessage}</div>
             <label>Nimi*</label> <br />
-            <input ref={nameRef} type="text"/> <br />
+            <input onChange={checkIfAllOk} ref={nameRef} type="text" /> <br />
             <label>Hind*</label> <br />
-            <input ref={priceRef} type="number"/> <br />
-            <label>Kategooria*</label> <br />
+            <input onChange={checkIfAllOk} ref={priceRef} type="number" /> <br />
+            <label>Vali ülemkategooria*</label> <br />
             {/* <input ref={categoryRef} type="number" /> <br /> */}
+
             <select onChange={parentCategoryChanged}>
-                <option value="" disabled selected>Vali kategooria</option>
-                { categories.map(element => <option value={JSON.stringify(element)}>{element.name}</option>) }
+            <option value="" disabled selected>Vali ülemkategooria</option>
+            { categories.map(element => <option value={JSON.stringify(element)}>{element.name}</option>) }
              </select> <br />
+
              { selectedCategories.length > 0 && 
-                <select ref={categoryRef}>
-                <option value="" disabled selected>Vali tootele kategooria</option>
-                { selectedCategories.map(element => <option value={element.id}>{element.name}</option>) }
+            <select onChange={checkIfAllOk} ref={categoryRef}>
+            <option value="" disabled selected>Vali tootele kategooria</option>
+            { selectedCategories.map(element => <option value={element.id}>{element.name}</option>) }
             </select>} <br />
+
             <input ref={categoryRef} type="number"/> <br />
             <label>Pildi aadresss</label> <br />
             <input ref={imgSrcRef} type="text"/> <br />
@@ -102,7 +116,7 @@ function AddProduct() {
             <input ref={stockRef} type="number"/> <br />
             <label>Aktiivne</label> <br />
             <input ref={activeRef} type="checkbox"/> <br />
-            <Button onClick={addNewProduct} variant="success">Sisesta uus toode</Button>
+            <Button disabled={!isAllOk} onClick={addNewProduct} variant="success">Sisesta uus toode</Button>
         </div>
     );
 }

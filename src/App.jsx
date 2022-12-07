@@ -2,15 +2,17 @@ import { Container, Nav, Navbar } from 'react-bootstrap';
 import { Link, Route, Routes, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react"; 
 import './App.css';
-import AddProduct from './pages/AddProduct';
-import Admin from './pages/Admin';
-import MaintainProducts from './pages/MaintainProducts';
+import AddProduct from './pages/admin/AddProduct';
+import Admin from './pages/admin/Admin';
+import MaintainProducts from './pages/admin/MaintainProducts';
 import MainPage from './pages/MainPage';
 import Cart from "./pages/Cart";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Orders from "./pages/Orders"
-import EditProduct from './pages/EditProduct';
+import EditProduct from './pages/admin/EditProduct';
+import AddAdmin from './pages/admin/AddAdmin';
+import MaintainAdmins from './pages/admin/MaintainAdmins';
 
 
 
@@ -66,6 +68,8 @@ function App() {
             <Route path='admin' exact element={ <Admin /> } />
             <Route path='admin/lisa-toode' exact element={ <AddProduct /> } />
             <Route path='admin/halda-tooteid' exact element={ <MaintainProducts /> } />
+            <Route path='admin/lisa-admin' exact element={ <AddAdmin /> } />
+            <Route path='admin/halda-admine' exact element={ <MaintainAdmins /> } />
             <Route path='admin/muuda-toode/:id' exact element={ <EditProduct /> } />
           </Route>
           }
